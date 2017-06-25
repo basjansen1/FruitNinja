@@ -33,26 +33,24 @@ public class SlashTrailSectionController {
 //					JOptionPane.showMessageDialog(null, "SLICEDDD THROUGH");
 //				}
 				
-				System.out.println(slash.getEndX());
-				System.out.println(slash.getEndY());
-				System.out.println(gameObject.getX());
-				System.out.println(gameObject.getY());
+				System.out.println("end x: " + slash.getEndX());
+				System.out.println("end y: " + slash.getEndY());
+				System.out.println("game x: " + gameObject.getX());
+				System.out.println("game y " + gameObject.getY());
 				
-				if (slash.getEndX() >= gameObject.getX() && slash.getEndX() <= gameObject.getX()
-						&& (slash.getEndY() >= gameObject.getY() && slash.getEndY() <= gameObject.getY())) {
-					JOptionPane.showMessageDialog(null, "SLICEDDD THROUGH");
+//				if (slash.getEndX() >= gameObject.getX() && slash.getEndX() <= gameObject.getX()
+//						&& (slash.getEndY() >= gameObject.getY() && slash.getEndY() <= gameObject.getY())) {
+//					JOptionPane.showMessageDialog(null, "SLICEDDD THROUGH");
+//				}
+//				
+//				if (slash.getEndX() != 0)
+//					JOptionPane.showMessageDialog(null, "X: " + slash.getEndX() + slash.getEndY() +  "GAME OBJECT:  " + gameObject.getX() );
+				
+				try {
+					Thread.sleep(1000);
+				} catch(InterruptedException e) {
+					
 				}
-				
-				if (slash.getEndX() != 0)
-					JOptionPane.showMessageDialog(null, "X: " + slash.getEndX() + slash.getEndY() +  "GAME OBJECT:  " + gameObject.getX() );
-				
-				slash.getEndX();
-				slash.getEndY();
-				slash.getStartY();
-				slash.getStartX();
-				
-				gameObject.getX();
-				gameObject.getY();
 			}
 		}
 	}

@@ -19,6 +19,8 @@ public class MainController {
 		GameView gameView = new GameView();
 		new PlayingFieldController(gameView, this);
 		
+		new SoundController().startGameSoundTrack();
+		
 		MyContentPane myContentPane = new MyContentPane();
 		myContentPane.setGameView(gameView, playerView);
 		
