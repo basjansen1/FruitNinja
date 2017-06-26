@@ -24,7 +24,7 @@ public class MainController {
 		playerView = new PlayerView();
 		gameView = new GameView();
 		
-		new PlayingFieldController(gameView, this).startGame();
+		new GameController(gameView, playerView, this).startGame();
 		soundController = new SoundController();
 		soundController.startGameSoundTrack();
 		

@@ -13,16 +13,18 @@ import model.PlayingField;
 import model.SlashTrailSection;
 import model.SpawnSide;
 import view.GameView;
+import view.PlayerView;
 
 /**
  * @author Bas Jansen
  */
-public class PlayingFieldController extends MouseAdapter {
+public class GameController extends MouseAdapter {
 	private PlayingField playingField;
 	private GameObject gameObject;
 	private SlashTrailSection slash;
 	private Player player;
 	private GameView gameView;
+	private PlayerView playerView;
 	private SoundController soundControl;
 	private MainController mainController;
 	
@@ -31,8 +33,9 @@ public class PlayingFieldController extends MouseAdapter {
 	private int x, y;
 	private MouseEvent draggedEvent;
 
-	public PlayingFieldController(GameView gameView, MainController mainController) {
+	public GameController(GameView gameView, PlayerView playerView, MainController mainController) {
 		this.gameView = gameView;
+		this.playerView = playerView;
 		this.mainController = mainController;
 		this.soundControl = new SoundController();
 		
@@ -77,6 +80,8 @@ public class PlayingFieldController extends MouseAdapter {
 					gameObject = new Bomb();
 				} else {
 					gameObject = new Fruit();
+					// TODO-> Add the correct scores: so that should be 50 or 100 depending on the size.
+					((Fruit)gameObject).setScore(50);
 				}
 				
 				Random r = new Random();
@@ -118,6 +123,9 @@ public class PlayingFieldController extends MouseAdapter {
 					gameObject.setX(x);
 					gameObject.setY(y);
 					gameObject.setObjectType(gameObjectType);
+					
+					// TODO-> NOT FULLY TESTED THIS LINE! TEST MULTIPLE TIMES
+					playingField.setGameObject(gameObject);
 					// TODO->Set the size of the fruit if its a fruit and not a bomb
 					
 					gameView.animateGameObject(gameObject);
@@ -184,6 +192,13 @@ public class PlayingFieldController extends MouseAdapter {
 					
 					if (gameObject.getObjectType() == GameObjectType.BOMB) {
 						player.subtractLife();
+						playerView.updateLives(player.getLives());
+					} else {
+						// Update the total score for the player
+						player.setScore(((Fruit)gameObject).getScore());
+						
+						// Its Fruit so update the score
+						playerView.updateScore(((Fruit) gameObject).getScore());
 					}
 					
 					// Reset the slash variables
@@ -197,7 +212,7 @@ public class PlayingFieldController extends MouseAdapter {
 		return false;
 	}
 	
-	/*
+	/**
 	 * @param: x: x position of the dragged mouse
 	 * @param: y: y position of the dragged mouse
 	 */
