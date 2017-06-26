@@ -1,5 +1,6 @@
 package controller;
 
+import view.GameOverView;
 import view.GameView;
 import view.MyContentPane;
 import view.MyGui;
@@ -14,7 +15,6 @@ public class MainController {
 	
 	public void setGameView() {
 		PlayerView playerView = new PlayerView();
-		new PlayerController(playerView, this);
 		
 		GameView gameView = new GameView();
 		new PlayingFieldController(gameView, this);
@@ -28,6 +28,9 @@ public class MainController {
 	}
 	
 	public void setGameOverView() {
-		// TODO
+		GameOverView gameOverView = new GameOverView();
+		MyContentPane myContentPane = new MyContentPane();
+		
+		myContentPane.setGameOverView(gameOverView);
 	}
 }

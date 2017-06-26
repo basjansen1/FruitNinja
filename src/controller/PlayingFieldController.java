@@ -4,6 +4,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
+import javax.swing.JOptionPane;
+
 import model.Bomb;
 import model.Fruit;
 import model.GameObject;
@@ -84,7 +86,7 @@ public class PlayingFieldController extends MouseAdapter {
 					gameObject = new Fruit();
 				}
 				
-				new SlashTrailSectionController(slash, gameObject, PlayingFieldController.this);
+				//new SlashTrailSectionController(slash, gameObject, PlayingFieldController.this);
 				
 				Random r = new Random();
 				
@@ -128,12 +130,16 @@ public class PlayingFieldController extends MouseAdapter {
 					
 					gameView.animateGameObject(gameObject);
 					
+					if (intersection()) {
+						resetPositions();
+						break;
+					}
+			
 					// -80 So you know for sure the fruit or bomb is out of the screen.
 					if (x > 500 || x < -80 
 							|| y > 500 || y < -80) {
 						// Set the variables back to 0 so they wont spawn in the middle of the screen.
-						x = 0;
-						y = 0;
+						resetPositions();
 						break;
 					}
 					
@@ -143,6 +149,45 @@ public class PlayingFieldController extends MouseAdapter {
 					}
 				}
 			}
+		}
+	}
+	
+	/*
+	 * Method to reset the x and y positions where the gameObject will get printed on the screen.
+	 */
+	private void resetPositions() {
+		x = 0;
+		y = 0;
+	}
+	
+	private boolean intersection() {
+		if (draggedEvent != null) {
+			System.out.println("Mouse x: " + draggedEvent.getX() + " Mouse Y: " + draggedEvent.getY());
+
+			if (slash.getStartX() != slash.getEndX() && slash.getStartY() != slash.getEndY()) {
+				if (slicedThrough(draggedEvent.getX(), draggedEvent.getY())) {
+					System.out.println("SLICED THROUGH");
+					
+					slash.setEndPoint(0, 0);
+					slash.setStartPoint(0, 0);
+					
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	/*
+	 * @param: x: x position of the dragged mouse
+	 * @param: y: y position of the dragged mouse
+	 */
+	private boolean slicedThrough(int x, int y) {
+		if ((x >= gameObject.getX()) && (x <= (gameObject.getX() + 40)) && (y >= gameObject.getY())
+				&& (y <= (gameObject.getY() + 40))) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 }
