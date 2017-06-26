@@ -78,10 +78,17 @@ public class GameController extends MouseAdapter {
 				
 				if (gameObjectType == GameObjectType.BOMB) {
 					gameObject = new Bomb();
+					
+					gameObject.setObjectType(gameObjectType);
 				} else {
 					gameObject = new Fruit();
-					// TODO-> Add the correct scores: so that should be 50 or 100 depending on the size.
-					((Fruit)gameObject).setScore(50);
+					
+					gameObject.setObjectType(gameObjectType);
+					if (gameObject.getObjectType() == GameObjectType.STRAWBERRY) {
+						((Fruit)gameObject).setScore(100);
+					} else {
+						((Fruit)gameObject).setScore(50);
+					}
 				}
 				
 				Random r = new Random();
@@ -122,16 +129,14 @@ public class GameController extends MouseAdapter {
 	
 					gameObject.setX(x);
 					gameObject.setY(y);
-					gameObject.setObjectType(gameObjectType);
 					
-					// TODO-> NOT FULLY TESTED THIS LINE! TEST MULTIPLE TIMES
 					playingField.setGameObject(gameObject);
-					// TODO->Set the size of the fruit if its a fruit and not a bomb
 					
 					gameView.animateGameObject(gameObject);
 					
 					if (intersection()) {
 						resetPositions();
+												
 						break;
 					}
 					
