@@ -2,6 +2,9 @@ package view;
 
 import javax.swing.JFrame;
 
+/**
+ * @author Bas Jansen
+ */
 public class MyGui extends JFrame {
 	/**
 	 * 

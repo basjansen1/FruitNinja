@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * @author Bas Jansen
+ */
 public abstract class GameObject {
 	private int y,x;
 	

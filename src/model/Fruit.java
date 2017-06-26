@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * @author Bas Jansen
+ */
 public class Fruit extends GameObject {
 	private int size;
 	private GameObjectType objectType;

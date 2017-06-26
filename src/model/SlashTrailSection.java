@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * @author Bas Jansen
+ */
 public class SlashTrailSection {
 	private int startX, startY;
 	private int endX, endY;

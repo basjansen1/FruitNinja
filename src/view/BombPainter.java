@@ -9,6 +9,9 @@ import javax.swing.JPanel;
 
 import model.Bomb;
 
+/**
+ * @author Bas Jansen
+ */
 public class BombPainter extends JPanel {
 	/**
 	 * 

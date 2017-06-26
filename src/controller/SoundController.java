@@ -7,6 +7,9 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.Line;
 
+/**
+ * @author Bas Jansen
+ */
 public class SoundController {
 	public void startGameSoundTrack() {
 		AudioInputStream as1;

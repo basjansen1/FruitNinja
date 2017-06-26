@@ -4,8 +4,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-import javax.swing.JOptionPane;
-
 import model.Bomb;
 import model.Fruit;
 import model.GameObject;
@@ -15,7 +13,9 @@ import model.SlashTrailSection;
 import model.SpawnSide;
 import view.GameView;
 
-@SuppressWarnings("unused")
+/**
+ * @author Bas Jansen
+ */
 public class PlayingFieldController extends MouseAdapter {
 	private PlayingField playingField;
 	private MainController mainController;
@@ -28,10 +28,12 @@ public class PlayingFieldController extends MouseAdapter {
 	private Runnable runnable;
 	private int x, y;
 	private MouseEvent draggedEvent;
+	private SoundController soundControl;
 
 	public PlayingFieldController(GameView gameView, MainController mainController) {
 		this.gameView = gameView;
 		this.mainController = mainController;
+		this.soundControl = new SoundController();
 		
 		playingField = new PlayingField();
 		slash = new SlashTrailSection();
@@ -41,12 +43,8 @@ public class PlayingFieldController extends MouseAdapter {
 		
 		gameView.addMouseListener(this);
 		gameView.addMouseMotionListener(this);
+		
 		thread.start();
-	}
-	
-	public void repaintGameView() {
-		gameView.animateGameObject(null);
-		gameView.repaint();
 	}
 
 	@Override
@@ -64,14 +62,6 @@ public class PlayingFieldController extends MouseAdapter {
 		this.draggedEvent = me;
 	}
 
-	public MouseEvent getMouseDraggedEvent() {
-		return draggedEvent;
-	}
-	
-	public void startAnimateThread() {
-		
-	}
-
 	private class Animate implements Runnable {
 		@Override
 		public void run() {
@@ -85,15 +75,15 @@ public class PlayingFieldController extends MouseAdapter {
 				} else {
 					gameObject = new Fruit();
 				}
-				
-				//new SlashTrailSectionController(slash, gameObject, PlayingFieldController.this);
+
 				
 				Random r = new Random();
 				
 				if (spawnSide == SpawnSide.BOTTOM || spawnSide == SpawnSide.TOP) {
-					x = r.nextInt(470);
+					// TODO-> Make it 500 and subtract the size of it
+					x = r.nextInt(460);
 				} else {
-					y = r.nextInt(470);
+					y = r.nextInt(460);
 				}
 				
 				boolean firstTime = true;
@@ -123,7 +113,6 @@ public class PlayingFieldController extends MouseAdapter {
 							break;
 					}
 	
-					// Repaint the screen so the GameObject gets updated/animated
 					gameObject.setX(x);
 					gameObject.setY(y);
 					gameObject.setObjectType(gameObjectType);
@@ -134,15 +123,12 @@ public class PlayingFieldController extends MouseAdapter {
 						resetPositions();
 						break;
 					}
-			
-					// -80 So you know for sure the fruit or bomb is out of the screen.
-					if (x > 500 || x < -80 
-							|| y > 500 || y < -80) {
-						// Set the variables back to 0 so they wont spawn in the middle of the screen.
+					
+					if (objectOutOfScreen()) {
 						resetPositions();
 						break;
 					}
-					
+				
 					try {
 						Thread.sleep(10);
 					} catch (InterruptedException e) {
@@ -152,21 +138,36 @@ public class PlayingFieldController extends MouseAdapter {
 		}
 	}
 	
+	private boolean objectOutOfScreen() {
+		if (x > 500 || x < -80 
+				|| y > 500 || y < -80) {
+			return true;
+		}
+		return false;
+	}
+	
 	/*
 	 * Method to reset the x and y positions where the gameObject will get printed on the screen.
 	 */
 	private void resetPositions() {
 		x = 0;
 		y = 0;
+		
+		gameObject.setX(0);
+		gameObject.setY(0);
 	}
 	
 	private boolean intersection() {
 		if (draggedEvent != null) {
-			System.out.println("Mouse x: " + draggedEvent.getX() + " Mouse Y: " + draggedEvent.getY());
-
-			if (slash.getStartX() != slash.getEndX() && slash.getStartY() != slash.getEndY()) {
-				if (slicedThrough(draggedEvent.getX(), draggedEvent.getY())) {
-					System.out.println("SLICED THROUGH");
+			if (slash.getStartX() != slash.getEndX() 
+					&& slash.getStartY() != slash.getEndY()) {
+				if (slicedThrough(draggedEvent.getX(), draggedEvent.getY())) {		
+					//You slashed so play the slashingSound.
+					soundControl.startSlashSound();
+					
+					if (gameObject.getObjectType() == GameObjectType.BOMB) {
+						// player live - 1
+					}
 					
 					slash.setEndPoint(0, 0);
 					slash.setStartPoint(0, 0);
@@ -183,7 +184,10 @@ public class PlayingFieldController extends MouseAdapter {
 	 * @param: y: y position of the dragged mouse
 	 */
 	private boolean slicedThrough(int x, int y) {
-		if ((x >= gameObject.getX()) && (x <= (gameObject.getX() + 40)) && (y >= gameObject.getY())
+		if (
+				(x >= gameObject.getX())
+				&& (x <= (gameObject.getX() + 40)) 
+				&& (y >= gameObject.getY())
 				&& (y <= (gameObject.getY() + 40))) {
 			return true;
 		} else {

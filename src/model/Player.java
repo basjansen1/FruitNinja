@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * @author Bas Jansen
+ */
 public class Player {
 	private int score;
 	private int lives;

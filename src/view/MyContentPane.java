@@ -7,7 +7,9 @@ import javax.swing.JPanel;
 
 import model.PlayingField;
 
-@SuppressWarnings("unused")
+/**
+ * @author Bas Jansen
+ */
 public class MyContentPane extends JPanel {
 	/**
 	 * 

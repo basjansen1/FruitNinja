@@ -6,6 +6,9 @@ import view.MyContentPane;
 import view.MyGui;
 import view.PlayerView;
 
+/**
+ * @author Bas Jansen
+ */
 public class MainController {
 	private MyGui myGui;
 

@@ -16,7 +16,9 @@ import model.Fruit;
 import model.GameObject;
 import model.GameObjectType;
 
-@SuppressWarnings("unused")
+/**
+ * @author Bas Jansen
+ */
 public class GameView extends JPanel {
 	/**
 	 * 

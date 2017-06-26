@@ -1,6 +1,8 @@
 package model;
 
-@SuppressWarnings("unused")
+/**
+ * @author Bas Jansen
+ */
 public class PlayingField {
 	private GameObject gameObject;
 	private SlashTrailSection slashTrailSection;
