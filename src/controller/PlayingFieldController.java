@@ -8,6 +8,7 @@ import model.Bomb;
 import model.Fruit;
 import model.GameObject;
 import model.GameObjectType;
+import model.Player;
 import model.PlayingField;
 import model.SlashTrailSection;
 import model.SpawnSide;
@@ -18,17 +19,17 @@ import view.GameView;
  */
 public class PlayingFieldController extends MouseAdapter {
 	private PlayingField playingField;
-	private MainController mainController;
-
 	private GameObject gameObject;
-	
-	private GameView gameView;
 	private SlashTrailSection slash;
+	private Player player;
+	private GameView gameView;
+	private SoundController soundControl;
+	private MainController mainController;
+	
 	private Thread thread;
 	private Runnable runnable;
 	private int x, y;
 	private MouseEvent draggedEvent;
-	private SoundController soundControl;
 
 	public PlayingFieldController(GameView gameView, MainController mainController) {
 		this.gameView = gameView;
@@ -37,13 +38,16 @@ public class PlayingFieldController extends MouseAdapter {
 		
 		playingField = new PlayingField();
 		slash = new SlashTrailSection();
+		player = new Player();
 		
 		runnable = new Animate();
 		thread = new Thread(runnable);
 		
 		gameView.addMouseListener(this);
 		gameView.addMouseMotionListener(this);
-		
+	}
+	
+	public void startGame() {
 		thread.start();
 	}
 
@@ -65,8 +69,7 @@ public class PlayingFieldController extends MouseAdapter {
 	private class Animate implements Runnable {
 		@Override
 		public void run() {
-			// Game loop
-			for (;;) {
+			while(player.getLives() > 0) {
 				GameObjectType gameObjectType = GameObjectType.getRandomFruitType();
 				SpawnSide spawnSide = SpawnSide.getRandomSide();
 				
@@ -75,7 +78,6 @@ public class PlayingFieldController extends MouseAdapter {
 				} else {
 					gameObject = new Fruit();
 				}
-
 				
 				Random r = new Random();
 				
@@ -129,24 +131,34 @@ public class PlayingFieldController extends MouseAdapter {
 						break;
 					}
 				
+					/** 
+					 * I'm letting the thread sleep for 5ms because otherwise the animation will go way too fast.
+					 * You could see the use of Thread.sleep() as the speed of the game object.
+					*/
 					try {
-						Thread.sleep(10);
+						Thread.sleep(5);
 					} catch (InterruptedException e) {
 					}
 				}
 			}
+			
+			mainController.setGameOverView(player.getScore());
 		}
 	}
 	
+	/**
+	 * Checks if the gameobejct(fruit or bomb) is out of screen.
+	 * @return
+	 */
 	private boolean objectOutOfScreen() {
-		if (x > 500 || x < -80 
-				|| y > 500 || y < -80) {
+		if (x > 500 || x < -40 
+				|| y > 500 || y < -40) {
 			return true;
 		}
 		return false;
 	}
 	
-	/*
+	/**
 	 * Method to reset the x and y positions where the gameObject will get printed on the screen.
 	 */
 	private void resetPositions() {
@@ -157,6 +169,10 @@ public class PlayingFieldController extends MouseAdapter {
 		gameObject.setY(0);
 	}
 	
+	/**
+	 * @returns true when your cursor went through a fruit or bomb gameObject
+	 * @returns false when there wasn't an collision
+	 */
 	private boolean intersection() {
 		if (draggedEvent != null) {
 			if (slash.getStartX() != slash.getEndX() 
@@ -166,9 +182,10 @@ public class PlayingFieldController extends MouseAdapter {
 					soundControl.startSlashSound();
 					
 					if (gameObject.getObjectType() == GameObjectType.BOMB) {
-						// player live - 1
+						player.subtractLife();
 					}
 					
+					// Reset the slash variables
 					slash.setEndPoint(0, 0);
 					slash.setStartPoint(0, 0);
 					

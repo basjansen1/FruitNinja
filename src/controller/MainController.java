@@ -11,29 +11,40 @@ import view.PlayerView;
  */
 public class MainController {
 	private MyGui myGui;
+	private SoundController soundController;
+	private MyContentPane myContentPane;
+	private GameView gameView;
+	private PlayerView playerView;
 
 	public MainController() {
 		myGui = new MyGui();
 	}
 	
 	public void setGameView() {
-		PlayerView playerView = new PlayerView();
+		playerView = new PlayerView();
+		gameView = new GameView();
 		
-		GameView gameView = new GameView();
-		new PlayingFieldController(gameView, this);
-		
-		new SoundController().startGameSoundTrack();
+		new PlayingFieldController(gameView, this).startGame();
+		soundController = new SoundController();
+		soundController.startGameSoundTrack();
 		
 		MyContentPane myContentPane = new MyContentPane();
 		myContentPane.setGameView(gameView, playerView);
+		this.myContentPane = myContentPane;
 		
 		myGui.setupGui(myContentPane);
 	}
 	
-	public void setGameOverView() {
-		GameOverView gameOverView = new GameOverView();
-		MyContentPane myContentPane = new MyContentPane();
+	public void setGameOverView(int score) {
+		GameOverView gameOverView = new GameOverView(score);
+		
+		myContentPane.remove(gameView);
+		myContentPane.remove(playerView);
+		
+		soundController.stopGameSoundTrack();
 		
 		myContentPane.setGameOverView(gameOverView);
+		
+		myGui.setupGui(myContentPane);
 	}
 }

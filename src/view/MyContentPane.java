@@ -35,6 +35,9 @@ public class MyContentPane extends JPanel {
 
 	
 	public void setGameOverView(GameOverView gameOverView) {
+		this.remove(playerView);
+		this.remove(gameView);
 		
+		this.add(gameOverView);
 	}
 }
