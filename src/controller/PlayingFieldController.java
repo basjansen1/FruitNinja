@@ -118,6 +118,7 @@ public class PlayingFieldController extends MouseAdapter {
 					gameObject.setX(x);
 					gameObject.setY(y);
 					gameObject.setObjectType(gameObjectType);
+					// TODO->Set the size of the fruit if its a fruit and not a bomb
 					
 					gameView.animateGameObject(gameObject);
 					

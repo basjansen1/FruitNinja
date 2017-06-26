@@ -11,11 +11,11 @@ import javax.sound.sampled.Line;
  * @author Bas Jansen
  */
 public class SoundController {
-	AudioInputStream as1;
-	AudioFormat af;
-	Clip clip1;
-	DataLine.Info info;
-	Line line1;
+	private AudioInputStream as1;
+	private AudioFormat af;
+	private Clip clip1;
+	private DataLine.Info info;
+	private Line line1;
 	
 	public void startGameSoundTrack() {
 		try {
