@@ -2,6 +2,9 @@ package model;
 
 import java.util.Random;
 
+/**
+ * @author Bas Jansen
+ */
 public enum SpawnSide {
 	LEFT, RIGHT, BOTTOM, TOP;
 

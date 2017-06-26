@@ -7,14 +7,17 @@ import javax.sound.sampled.Clip;
 import javax.sound.sampled.DataLine;
 import javax.sound.sampled.Line;
 
+/**
+ * @author Bas Jansen
+ */
 public class SoundController {
+	private AudioInputStream as1;
+	private AudioFormat af;
+	private Clip clip1;
+	private DataLine.Info info;
+	private Line line1;
+	
 	public void startGameSoundTrack() {
-		AudioInputStream as1;
-		AudioFormat af;
-		Clip clip1;
-		DataLine.Info info;
-		Line line1;
-		
 		try {
 			as1 = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/resources/game_music.wav"));
 			af = as1.getFormat();
@@ -29,6 +32,10 @@ public class SoundController {
 			}
 		} catch (Exception e) {
 		}
+	}
+	
+	public void stopGameSoundTrack() {
+		clip1.stop();
 	}
 	
 	public void startSlashSound() {

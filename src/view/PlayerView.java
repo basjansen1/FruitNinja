@@ -7,6 +7,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+/**
+ * @author Bas Jansen
+ */
 public class PlayerView extends JPanel {
 	/**
 	 * 

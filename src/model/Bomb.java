@@ -1,5 +1,8 @@
 package model;
 
+/**
+ * @author Bas Jansen
+ */
 public class Bomb extends GameObject {
 	private int size;
 	private GameObjectType objectType;

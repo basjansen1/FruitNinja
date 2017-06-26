@@ -10,7 +10,9 @@ import javax.swing.JPanel;
 import model.Fruit;
 import model.GameObjectType;
 
-@SuppressWarnings("unused")
+/**
+ * @author Bas Jansen
+ */
 public class FruitPainter extends JPanel {
 	/**
 	 * 
