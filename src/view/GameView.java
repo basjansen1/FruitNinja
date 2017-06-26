@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Bomb;
@@ -38,18 +39,22 @@ public class GameView extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
-		try {
-			BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/resources/background.png"));
-			g.drawImage(img, 0, 0, this);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return;
-		}
-		
-		if (gameObject.getObjectType() == GameObjectType.BOMB) {
-			new BombPainter().paintBomb(g, (Bomb)gameObject);
+		if (gameObject != null) {
+			try {
+				BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/resources/background.png"));
+				g.drawImage(img, 0, 0, this);
+			} catch (IOException e) {
+				e.printStackTrace();
+				return;
+			}
+			
+			if (gameObject.getObjectType() == GameObjectType.BOMB) {
+				new BombPainter().paintBomb(g, (Bomb)gameObject);
+			} else {
+				new FruitPainter().paintFruit(g, (Fruit)gameObject);
+			}
 		} else {
-			new FruitPainter().paintFruit(g, (Fruit)gameObject);
+			JOptionPane.showMessageDialog(null, "NULLLLLL");
 		}
 	}
 }

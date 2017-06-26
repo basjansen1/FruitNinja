@@ -1,9 +1,6 @@
 package controller;
 
-import java.awt.Rectangle;
-import java.awt.geom.Area;
-
-import javax.swing.JOptionPane;
+import java.awt.event.MouseEvent;
 
 import model.GameObject;
 import model.SlashTrailSection;
@@ -14,7 +11,6 @@ public class SlashTrailSectionController {
 	private PlayingFieldController playingFieldController;
 	private Thread thread;
 	private Runnable runnable;
-	private boolean collision;
 	
 	public SlashTrailSectionController(SlashTrailSection slash, GameObject gameObject, PlayingFieldController playingFieldController) {
 		this.slash = slash;
@@ -26,41 +22,49 @@ public class SlashTrailSectionController {
 		thread = new Thread(runnable);
 		
 		thread.start();
+		
+		//addMouseMotionListener();
 	}
-	
+		
 	private class CheckSlash implements Runnable {
 		@Override
 		public void run() {
 			while(true) {
-				// Check if slash is done correctly.					
-				System.out.println("end x: " + slash.getEndX());
-				System.out.println("end y: " + slash.getEndY());
-				System.out.println("game x: " + gameObject.getX());
-				System.out.println("game y " + gameObject.getY());
+				MouseEvent me = playingFieldController.getMouseDraggedEvent();
 				
-				if (slicedThrough()) {
-					JOptionPane.showMessageDialog(null, "SLICED THROUGH");
-					
-					slash.setEndPoint(0, 0);
-					slash.setStartPoint(0, 0);
-					
-					playingFieldController.repaintGameView();
+				if (me != null) {
+					System.out.println("Mouse x: " + me.getX() + " Mouse Y: " + me.getY());
+					if (slicedThrough(me.getX(), me.getY())) {
+//						JOptionPane.showMessageDialog(null, "SLICED THROUGH");
+						System.out.println("SLICED THROUGH");
+						
+						slash.setEndPoint(0, 0);
+						slash.setStartPoint(0, 0);
+						
+//						playingFieldController.repaintGameView();
+						
+						try {
+							Thread.sleep(2500);
+						} catch (InterruptedException e) {
+							System.out.println();
+						}
+					}
+				} else {
+					continue;
 				}
 			}
 		}
-		
-		// Method stil doesnt work.
-		public boolean slicedThrough() {
-//		    return x < r.x + r.width && x + width > r.x && y < r.y + r.height && y + height > r.y;
-//			return slash.getEndX() < gameObject.getX() + width && slash.getEndX() + width > gameObject.getX() && slash.getEndY() < slash.getEndY() + gameObject.getY() + width && slash.getEndY() + width > gameObject.getY();
-
-			int width = 40;
-			int mouseX = slash.getEndX() - slash.getStartX();
-			int mouseY = slash.getEndY() - slash.getStartY();
-			
-			if (mouseX > 0) {
-				return mouseX < gameObject.getX() + width && mouseX + width > gameObject.getX() && mouseY < gameObject.getY() + width && mouseY + width > gameObject.getY();
-			}
+	}
+	
+	/*
+	 * @param: x: x position of the dragged mouse
+	 * @param: y: y position of the dragged mouse
+	 */
+	public boolean slicedThrough(int x, int y) {
+		if ((x >= gameObject.getX()) && (x <= (gameObject.getX() + 40)) && (y >= gameObject.getY())
+				&& (y <= (gameObject.getY() + 40))) {
+			return true;
+		} else {
 			return false;
 		}
 	}

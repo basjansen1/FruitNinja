@@ -25,6 +25,7 @@ public class PlayingFieldController extends MouseAdapter {
 	private Thread thread;
 	private Runnable runnable;
 	private int x, y;
+	private MouseEvent draggedEvent;
 
 	public PlayingFieldController(GameView gameView, MainController mainController) {
 		this.gameView = gameView;
@@ -37,11 +38,13 @@ public class PlayingFieldController extends MouseAdapter {
 		thread = new Thread(runnable);
 		
 		gameView.addMouseListener(this);
+		gameView.addMouseMotionListener(this);
 		thread.start();
 	}
 	
 	public void repaintGameView() {
 		gameView.animateGameObject(null);
+		gameView.repaint();
 	}
 
 	@Override
@@ -52,6 +55,19 @@ public class PlayingFieldController extends MouseAdapter {
 	@Override
 	public void mouseReleased(MouseEvent me) {
 		slash.setEndPoint((int) me.getLocationOnScreen().getX(), (int) me.getLocationOnScreen().getY());
+	}
+	
+	@Override
+	public void mouseDragged(MouseEvent me) {
+		this.draggedEvent = me;
+	}
+
+	public MouseEvent getMouseDraggedEvent() {
+		return draggedEvent;
+	}
+	
+	public void startAnimateThread() {
+		
 	}
 
 	private class Animate implements Runnable {
