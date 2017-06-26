@@ -39,6 +39,10 @@ public class PlayingFieldController extends MouseAdapter {
 		gameView.addMouseListener(this);
 		thread.start();
 	}
+	
+	public void repaintGameView() {
+		gameView.animateGameObject(null);
+	}
 
 	@Override
 	public void mousePressed(MouseEvent me) {
@@ -53,6 +57,7 @@ public class PlayingFieldController extends MouseAdapter {
 	private class Animate implements Runnable {
 		@Override
 		public void run() {
+			// Game loop
 			for (;;) {
 				GameObjectType gameObjectType = GameObjectType.getRandomFruitType();
 				SpawnSide spawnSide = SpawnSide.getRandomSide();
@@ -63,7 +68,7 @@ public class PlayingFieldController extends MouseAdapter {
 					gameObject = new Fruit();
 				}
 				
-				new SlashTrailSectionController(slash, gameObject);
+				new SlashTrailSectionController(slash, gameObject, PlayingFieldController.this);
 				
 				Random r = new Random();
 				
@@ -75,6 +80,7 @@ public class PlayingFieldController extends MouseAdapter {
 				
 				boolean firstTime = true;
 				
+				// Animation loop
 				for(;;) {
 					switch(spawnSide) {
 						case BOTTOM:
@@ -109,6 +115,7 @@ public class PlayingFieldController extends MouseAdapter {
 					// -80 So you know for sure the fruit or bomb is out of the screen.
 					if (x > 500 || x < -80 
 							|| y > 500 || y < -80) {
+						// Set the variables back to 0 so they wont spawn in the middle of the screen.
 						x = 0;
 						y = 0;
 						break;
