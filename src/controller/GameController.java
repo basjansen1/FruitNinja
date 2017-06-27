@@ -19,7 +19,6 @@ import view.PlayerView;
  */
 public class GameController extends MouseAdapter {
 	private PlayingField playingField;
-	private GameObject gameObject;
 	private Player player;
 	private GameView gameView;
 	private PlayerView playerView;
@@ -28,7 +27,6 @@ public class GameController extends MouseAdapter {
 	
 	private Thread thread;
 	private Runnable runnable;
-	private int x, y;
 	private MouseEvent draggedEvent;
 
 	public GameController(GameView gameView, PlayerView playerView, MainController mainController) {
@@ -72,29 +70,41 @@ public class GameController extends MouseAdapter {
 			while(player.getLives() > 0) {
 				GameObjectType gameObjectType = GameObjectType.getRandomFruitType();
 				SpawnSide spawnSide = SpawnSide.getRandomSide();
+				GameObject gameObject = null;
 				
 				if (gameObjectType == GameObjectType.BOMB) {
 					gameObject = new Bomb();
 					
 					gameObject.setObjectType(gameObjectType);
+					gameObject.setSize(50);
 				} else {
 					gameObject = new Fruit();
 					
 					gameObject.setObjectType(gameObjectType);
 					if (gameObject.getObjectType() == GameObjectType.STRAWBERRY) {
 						((Fruit)gameObject).setScore(100);
+						gameObject.setSize(30);
 					} else {
 						((Fruit)gameObject).setScore(50);
+						gameObject.setSize(50);
 					}
 				}
 				
+				playingField.setGameObject(gameObject);
+				
 				Random r = new Random();
 				
+				/**
+				 * int range
+				 *  Calculates the range of spawning so the object doesnt spawn out of the screen.
+				 *  So for the strawberry the range is 470 and the bomb and other fruits will be 450
+				 */
+				int range = 500 - playingField.getGameObject().getSize();
+				
 				if (spawnSide == SpawnSide.BOTTOM || spawnSide == SpawnSide.TOP) {
-					// TODO-> Make it 500 and subtract the size of it
-					x = r.nextInt(450);
+					playingField.getGameObject().setX(r.nextInt(range));
 				} else {
-					y = r.nextInt(450);
+					playingField.getGameObject().setY(r.nextInt(range));
 				}
 				
 				boolean firstTime = true;
@@ -104,41 +114,39 @@ public class GameController extends MouseAdapter {
 					switch(spawnSide) {
 						case BOTTOM:
 							if (firstTime) {
-								y = 500;
+								playingField.getGameObject().setY(500);
 								firstTime = false;
 							}
-							y--;
+							playingField.getGameObject().subtractY();
 							break;
 						case TOP:	
-							y++;
+							playingField.getGameObject().addUpY();
 							break;
 						case LEFT:
-							x++;
+							playingField.getGameObject().addUpX();
 							break;
 						case RIGHT:
 							if (firstTime) {
-								x = 500;
+								playingField.getGameObject().setX(500);
 								firstTime = false;
 							}
-							x--;
+							playingField.getGameObject().subtractX();
 							break;
 					}
-	
-					gameObject.setX(x);
-					gameObject.setY(y);
 					
-					playingField.setGameObject(gameObject);
-					
-					gameView.animateGameObject(gameObject);
+					gameView.animateGameObject(playingField.getGameObject());
 					
 					if (intersection()) {
 						resetPositions();
-												
+						playingField.removeObject();
+						
 						break;
 					}
 					
 					if (objectOutOfScreen()) {
 						resetPositions();
+						playingField.removeObject();
+						
 						break;
 					}
 				
@@ -158,12 +166,12 @@ public class GameController extends MouseAdapter {
 	}
 	
 	/**
-	 * Checks if the gameobejct(fruit or bomb) is out of screen.
+	 * Checks if the GameObject(fruit or bomb) is out of screen.
 	 * @return
 	 */
 	private boolean objectOutOfScreen() {
-		if (x > 500 || x < -40 
-				|| y > 500 || y < -40) {
+		if (playingField.getGameObject().getX() > 500 || playingField.getGameObject().getX() < -40 
+				|| playingField.getGameObject().getY() > 500 || playingField.getGameObject().getY() < -40) {
 			return true;
 		}
 		return false;
@@ -173,11 +181,8 @@ public class GameController extends MouseAdapter {
 	 * Method to reset the x and y positions where the gameObject will get printed on the screen.
 	 */
 	private void resetPositions() {
-		x = 0;
-		y = 0;
-		
-		gameObject.setX(0);
-		gameObject.setY(0);
+		playingField.getGameObject().setX(0);
+		playingField.getGameObject().setY(0);
 	}
 	
 	/**
@@ -192,16 +197,15 @@ public class GameController extends MouseAdapter {
 					//You slashed so play the slashingSound.
 					soundControl.startSlashSound();
 					
-					if (gameObject.getObjectType() == GameObjectType.BOMB) {
+					if (playingField.getGameObject().getObjectType() == GameObjectType.BOMB) {
 						player.subtractLife();
 						playerView.updateLives(player.getLives());
 					} else {
 						// Update the total score for the player
-						player.setScore(((Fruit)gameObject).getScore());
+						player.setScore(((Fruit)playingField.getGameObject()).getScore());
 						
 						// Its Fruit so update the score
-						playerView.updateScore(((Fruit) gameObject).getScore());
-						playingField.removeObject();
+						playerView.updateScore(((Fruit) playingField.getGameObject()).getScore());
 					}
 					
 					// Reset the slash variables
@@ -221,10 +225,10 @@ public class GameController extends MouseAdapter {
 	 */
 	private boolean slicedThrough(int x, int y) {
 		if (
-				(x >= gameObject.getX())
-				&& (x <= (gameObject.getX() + 40)) 
-				&& (y >= gameObject.getY())
-				&& (y <= (gameObject.getY() + 40))) {
+				(x >= playingField.getGameObject().getX())
+				&& (x <= (playingField.getGameObject().getX() + 40)) 
+				&& (y >= playingField.getGameObject().getY())
+				&& (y <= (playingField.getGameObject().getY() + 40))) {
 			return true;
 		} else {
 			return false;
