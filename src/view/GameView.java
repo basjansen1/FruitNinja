@@ -4,8 +4,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
@@ -26,8 +24,6 @@ public class GameView extends JPanel {
 	private static final long serialVersionUID = 1L;
 	
 	private GameObject gameObject;
-	
-	private int x, y;
 	
 	public GameView() {
 		this.setPreferredSize(new Dimension(500, 500));

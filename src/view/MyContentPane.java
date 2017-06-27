@@ -1,11 +1,7 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-
 import javax.swing.JPanel;
-
-import model.PlayingField;
 
 /**
  * @author Bas Jansen
@@ -18,7 +14,6 @@ public class MyContentPane extends JPanel {
 	
 	private PlayerView playerView;
 	private GameView gameView;
-	private GameOverView gameOverView;
 
 	public MyContentPane() {		
 		this.setLayout(new BorderLayout());

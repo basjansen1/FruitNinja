@@ -8,7 +8,6 @@ import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 import model.Fruit;
-import model.GameObjectType;
 
 /**
  * @author Bas Jansen

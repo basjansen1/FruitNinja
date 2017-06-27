@@ -10,7 +10,6 @@ import model.GameObject;
 import model.GameObjectType;
 import model.Player;
 import model.PlayingField;
-import model.SlashTrailSection;
 import model.SpawnSide;
 import view.GameView;
 import view.PlayerView;
@@ -21,7 +20,6 @@ import view.PlayerView;
 public class GameController extends MouseAdapter {
 	private PlayingField playingField;
 	private GameObject gameObject;
-	private SlashTrailSection slash;
 	private Player player;
 	private GameView gameView;
 	private PlayerView playerView;
@@ -40,7 +38,6 @@ public class GameController extends MouseAdapter {
 		this.soundControl = new SoundController();
 		
 		playingField = new PlayingField();
-		slash = new SlashTrailSection();
 		player = new Player();
 		
 		runnable = new Animate();
@@ -56,12 +53,12 @@ public class GameController extends MouseAdapter {
 
 	@Override
 	public void mousePressed(MouseEvent me) {
-		slash.setStartPoint((int) me.getLocationOnScreen().getX(), (int) me.getLocationOnScreen().getY());
+		playingField.getSlashTrail().setStartPoint((int) me.getLocationOnScreen().getX(), (int) me.getLocationOnScreen().getY());
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent me) {
-		slash.setEndPoint((int) me.getLocationOnScreen().getX(), (int) me.getLocationOnScreen().getY());
+		playingField.getSlashTrail().setEndPoint((int) me.getLocationOnScreen().getX(), (int) me.getLocationOnScreen().getY());
 	}
 	
 	@Override
@@ -95,9 +92,9 @@ public class GameController extends MouseAdapter {
 				
 				if (spawnSide == SpawnSide.BOTTOM || spawnSide == SpawnSide.TOP) {
 					// TODO-> Make it 500 and subtract the size of it
-					x = r.nextInt(460);
+					x = r.nextInt(450);
 				} else {
-					y = r.nextInt(460);
+					y = r.nextInt(450);
 				}
 				
 				boolean firstTime = true;
@@ -189,8 +186,8 @@ public class GameController extends MouseAdapter {
 	 */
 	private boolean intersection() {
 		if (draggedEvent != null) {
-			if (slash.getStartX() != slash.getEndX() 
-					&& slash.getStartY() != slash.getEndY()) {
+			if (playingField.getSlashTrail().getStartX() != playingField.getSlashTrail().getEndX() 
+					&& playingField.getSlashTrail().getStartY() != playingField.getSlashTrail().getEndY()) {
 				if (slicedThrough(draggedEvent.getX(), draggedEvent.getY())) {		
 					//You slashed so play the slashingSound.
 					soundControl.startSlashSound();
@@ -204,11 +201,12 @@ public class GameController extends MouseAdapter {
 						
 						// Its Fruit so update the score
 						playerView.updateScore(((Fruit) gameObject).getScore());
+						playingField.removeObject();
 					}
 					
 					// Reset the slash variables
-					slash.setEndPoint(0, 0);
-					slash.setStartPoint(0, 0);
+					playingField.getSlashTrail().setEndPoint(0, 0);
+					playingField.getSlashTrail().setStartPoint(0, 0);
 					
 					return true;
 				}
