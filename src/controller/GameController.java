@@ -18,10 +18,21 @@ import view.PlayerView;
  * @author Bas Jansen
  */
 public class GameController extends MouseAdapter {
+	/**
+	 * Model instance variables
+	 */
 	private PlayingField playingField;
 	private Player player;
+	
+	/**
+	 * View instance variables
+	 */
 	private GameView gameView;
 	private PlayerView playerView;
+	
+	/**
+	 * Controller instance variables
+	 */
 	private SoundController soundControl;
 	private MainController mainController;
 	
@@ -45,6 +56,9 @@ public class GameController extends MouseAdapter {
 		gameView.addMouseMotionListener(this);
 	}
 	
+	/**
+	 * Method which starts the whole game.
+	 */
 	public void startGame() {
 		thread.start();
 	}
