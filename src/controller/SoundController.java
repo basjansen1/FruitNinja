@@ -9,6 +9,7 @@ import javax.sound.sampled.Line;
 
 /**
  * @author Bas Jansen
+ * This class is used to play sounds in the game. 
  */
 public class SoundController {
 	private AudioInputStream as1;
@@ -17,6 +18,10 @@ public class SoundController {
 	private DataLine.Info info;
 	private Line line1;
 	
+	/**
+	 * The method for starting the game track.
+	 * It keeps playing continuously.
+	 */
 	public void startGameSoundTrack() {
 		try {
 			as1 = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/resources/game_music.wav"));
@@ -34,10 +39,16 @@ public class SoundController {
 		}
 	}
 	
+	/**
+	 * Method for stopping the game track.
+	 */
 	public void stopGameSoundTrack() {
 		clip1.stop();
 	}
 	
+	/**
+	 * Starts the slashing sound when you slashed through a GameObject(Fruit or Bomb)
+	 */
 	public void startSlashSound() {
 		AudioInputStream as1;
 		AudioFormat af;

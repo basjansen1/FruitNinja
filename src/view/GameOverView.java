@@ -11,9 +11,6 @@ import javax.swing.SwingConstants;
  * @author Bas Jansen
  */
 public class GameOverView extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private JLabel lblGameOver;

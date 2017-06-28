@@ -6,9 +6,6 @@ import javax.swing.JFrame;
  * @author Bas Jansen
  */
 public class MyGui extends JFrame {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	public void setupGui(MyContentPane myContentPane) {

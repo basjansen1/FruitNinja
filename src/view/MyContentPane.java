@@ -7,9 +7,6 @@ import javax.swing.JPanel;
  * @author Bas Jansen
  */
 public class MyContentPane extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private PlayerView playerView;

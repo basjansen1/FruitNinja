@@ -11,9 +11,6 @@ import javax.swing.JPanel;
  * @author Bas Jansen
  */
 public class PlayerView extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	private JLabel lblScorePlaceHolder;

@@ -81,11 +81,18 @@ public class GameController extends MouseAdapter {
 	private class Animate implements Runnable {
 		@Override
 		public void run() {
+			/**
+			 * Game loop
+			 * The game keeps running until you have zero lives left.
+			 */
 			while(player.getLives() > 0) {
 				GameObjectType gameObjectType = GameObjectType.getRandomFruitType();
 				SpawnSide spawnSide = SpawnSide.getRandomSide();
 				GameObject gameObject = null;
 				
+				/**
+				 * Check what kind of object got generated and then instaniate the correct GameObject.
+				 */
 				if (gameObjectType == GameObjectType.BOMB) {
 					gameObject = new Bomb();
 					
@@ -125,6 +132,9 @@ public class GameController extends MouseAdapter {
 				
 				// Animation loop
 				for(;;) {
+					/**
+					 * Switch to set the correct positions where the objects will spawn.
+					 */
 					switch(spawnSide) {
 						case BOTTOM:
 							if (firstTime) {

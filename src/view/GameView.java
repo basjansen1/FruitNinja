@@ -18,9 +18,6 @@ import model.GameObjectType;
  * @author Bas Jansen
  */
 public class GameView extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private GameObject gameObject;

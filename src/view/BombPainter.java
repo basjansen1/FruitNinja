@@ -11,11 +11,9 @@ import model.Bomb;
 
 /**
  * @author Bas Jansen
+ * This class is responsible for drawing the bomb on screen.
  */
 public class BombPainter extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	BufferedImage bfImg;
@@ -24,7 +22,6 @@ public class BombPainter extends JPanel {
 		try {
 			bfImg = ImageIO.read(getClass().getResourceAsStream("/resources/bomb.png"));
 		} catch (IOException e) {
-			e.printStackTrace();
 		}
 	}
 

@@ -11,11 +11,9 @@ import model.Fruit;
 
 /**
  * @author Bas Jansen
+ * This class is responsible for drawing a fruit on screen.
  */
 public class FruitPainter extends JPanel {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private BufferedImage bfImg;
 	

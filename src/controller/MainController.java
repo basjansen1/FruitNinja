@@ -8,6 +8,7 @@ import view.PlayerView;
 
 /**
  * @author Bas Jansen
+ * The MainController is responsible for initating all variables the gamecontroller and views need
  */
 public class MainController {
 	private MyGui myGui;
