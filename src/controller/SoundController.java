@@ -24,7 +24,7 @@ public class SoundController {
 	 */
 	public void startGameSoundTrack() {
 		try {
-			as1 = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/resources/game_music.wav"));
+			as1 = AudioSystem.getAudioInputStream(getClass().getResource("/resources/game_music.wav"));
 			af = as1.getFormat();
 			clip1 = AudioSystem.getClip();
 			info = new DataLine.Info(Clip.class, af);
@@ -57,7 +57,7 @@ public class SoundController {
 		Line line1;
 		
 		try {
-			as1 = AudioSystem.getAudioInputStream(getClass().getResourceAsStream("/resources/slash.wav"));
+			as1 = AudioSystem.getAudioInputStream(getClass().getResource("/resources/slash.wav"));
 			af = as1.getFormat();
 			clip1 = AudioSystem.getClip();
 			info = new DataLine.Info(Clip.class, af);
