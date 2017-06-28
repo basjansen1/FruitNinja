@@ -38,11 +38,7 @@ public class FruitPainter extends JPanel {
 	
 	public void paintFruit(Graphics g, Fruit fruit) {
 		loadImage(fruit);
-		if (fruit.getSize() == 1) {
-			System.out.println("BIGGER");
-			g.drawImage(bfImg, fruit.getX(),fruit.getY(), 70, 70, null);
-		} else {
-			g.drawImage(bfImg, fruit.getX(), fruit.getY(), this);
-		}		
+
+		g.drawImage(bfImg, fruit.getX(), fruit.getY(), this);	
 	}
 }
