@@ -4,9 +4,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Random;
 
-import model.Bomb;
 import model.Fruit;
-import model.GameObject;
 import model.GameObjectType;
 import model.Player;
 import model.PlayingField;
@@ -88,30 +86,11 @@ public class GameController extends MouseAdapter {
 			while(player.getLives() > 0) {
 				GameObjectType gameObjectType = GameObjectType.getRandomFruitType();
 				SpawnSide spawnSide = SpawnSide.getRandomSide();
-				GameObject gameObject = null;
 				
 				/**
-				 * Check what kind of object got generated and then instaniate the correct GameObject.
+				 * Let the playingField generate a gameObject from the given objectType
 				 */
-				if (gameObjectType == GameObjectType.BOMB) {
-					gameObject = new Bomb();
-					
-					gameObject.setObjectType(gameObjectType);
-					gameObject.setSize(50);
-				} else {
-					gameObject = new Fruit();
-					
-					gameObject.setObjectType(gameObjectType);
-					if (gameObject.getObjectType() == GameObjectType.STRAWBERRY) {
-						((Fruit)gameObject).setScore(100);
-						gameObject.setSize(30);
-					} else {
-						((Fruit)gameObject).setScore(50);
-						gameObject.setSize(50);
-					}
-				}
-				
-				playingField.setGameObject(gameObject);
+				playingField.spawn(gameObjectType);
 				
 				Random r = new Random();
 				
@@ -130,7 +109,11 @@ public class GameController extends MouseAdapter {
 				
 				boolean firstTime = true;
 				
-				// Animation loop
+				/**
+				 * Animation loop
+				 * This loop is for animating the GameObject
+				 * It keeps animating the GameObject until its either out of the screen or sliced.
+				 */
 				for(;;) {
 					/**
 					 * Switch to set the correct positions where the objects will spawn.
@@ -190,6 +173,14 @@ public class GameController extends MouseAdapter {
 	}
 	
 	/**
+	 * Method to reset the x and y positions where the gameObject will get printed on the screen.
+	 */
+	private void resetPositions() {
+		playingField.getGameObject().setX(0);
+		playingField.getGameObject().setY(0);
+	}
+	
+	/**
 	 * Checks if the GameObject(fruit or bomb) is out of screen.
 	 * @return
 	 */
@@ -199,14 +190,6 @@ public class GameController extends MouseAdapter {
 			return true;
 		}
 		return false;
-	}
-	
-	/**
-	 * Method to reset the x and y positions where the gameObject will get printed on the screen.
-	 */
-	private void resetPositions() {
-		playingField.getGameObject().setX(0);
-		playingField.getGameObject().setY(0);
 	}
 	
 	/**
