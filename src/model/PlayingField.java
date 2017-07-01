@@ -32,7 +32,7 @@ public class PlayingField {
 				gameObject.setSize(50);
 			}
 		}
-		
+
 	}
 	
 	public void removeObject() {

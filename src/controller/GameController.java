@@ -92,7 +92,7 @@ public class GameController extends MouseAdapter {
 				 */
 				playingField.spawn(gameObjectType);
 				
-				Random r = new Random();
+				boolean firstTime = true;
 				
 				/**
 				 * int range
@@ -101,13 +101,13 @@ public class GameController extends MouseAdapter {
 				 */
 				int range = 500 - playingField.getGameObject().getSize();
 				
+				Random r = new Random();
+				
 				if (spawnSide == SpawnSide.BOTTOM || spawnSide == SpawnSide.TOP) {
 					playingField.getGameObject().setX(r.nextInt(range));
 				} else {
 					playingField.getGameObject().setY(r.nextInt(range));
 				}
-				
-				boolean firstTime = true;
 				
 				/**
 				 * Animation loop
