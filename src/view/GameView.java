@@ -48,8 +48,6 @@ public class GameView extends JPanel {
 			} else {
 				new FruitPainter().paintFruit(g, (Fruit)gameObject);
 			}
-		} else {
-			JOptionPane.showMessageDialog(null, "NULLLLLL");
 		}
 	}
 }
