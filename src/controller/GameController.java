@@ -143,14 +143,7 @@ public class GameController extends MouseAdapter {
 					
 					gameView.animateGameObject(playingField.getGameObject());
 					
-					if (intersection()) {
-						resetPositions();
-						playingField.removeObject();
-						
-						break;
-					}
-					
-					if (objectOutOfScreen()) {
+					if (intersection() || objectOutOfScreen()) {
 						resetPositions();
 						playingField.removeObject();
 						

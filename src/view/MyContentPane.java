@@ -15,7 +15,6 @@ public class MyContentPane extends JPanel {
 	public MyContentPane() {		
 		this.setLayout(new BorderLayout());
 	}
-
 	
 	public void setGameView(GameView gameView, PlayerView playerView) {
 		this.playerView = playerView;
